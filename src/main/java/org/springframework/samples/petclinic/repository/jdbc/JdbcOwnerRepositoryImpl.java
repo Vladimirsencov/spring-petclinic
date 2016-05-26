@@ -15,13 +15,6 @@
  */
 package org.springframework.samples.petclinic.repository.jdbc;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -37,6 +30,12 @@ import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple JDBC-based implementation of the {@link OwnerRepository} interface.
@@ -57,7 +56,6 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
 
     @Autowired
     public JdbcOwnerRepositoryImpl(DataSource dataSource, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-
         this.insertOwner = new SimpleJdbcInsert(dataSource)
             .withTableName("owners")
             .usingGeneratedKeyColumns("id");
@@ -76,7 +74,8 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
     public Collection<Owner> findByLastName(String lastName) throws DataAccessException {
         Map<String, Object> params = new HashMap<>();
         params.put("lastName", lastName + "%");
-        List<Owner> owners = this.namedParameterJdbcTemplate.query(
+        List<Owner> owners =
+            this.namedParameterJdbcTemplate.query(
             "SELECT id, first_name, last_name, address, city, telephone FROM owners WHERE last_name like :lastName",
             params,
             BeanPropertyRowMapper.newInstance(Owner.class)

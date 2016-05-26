@@ -80,6 +80,10 @@ public class PetController {
         if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null){
             result.rejectValue("name", "duplicate", "already exists");
         }
+        return getString(owner, pet, result, model);
+    }
+
+    private String getString(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.put("pet", pet);
             return "pets/createOrUpdatePetForm";
@@ -99,14 +103,7 @@ public class PetController {
 
     @RequestMapping(value = "/pets/{petId}/edit", method = RequestMethod.POST)
     public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
-        if (result.hasErrors()) {
-            model.put("pet", pet);
-            return "pets/createOrUpdatePetForm";
-        } else {
-            owner.addPet(pet);
-            this.clinicService.savePet(pet);
-            return "redirect:/owners/{ownerId}";
-        }
+        return getString(owner, pet, result, model);
     }
 
 }

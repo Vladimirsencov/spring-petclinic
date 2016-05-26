@@ -15,16 +15,15 @@
  */
 package org.springframework.samples.petclinic.repository.jpa;
 
-import java.util.Collection;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.springframework.orm.hibernate3.support.OpenSessionInViewFilter;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.Collection;
 
 /**
  * JPA implementation of the {@link OwnerRepository} interface.
@@ -71,11 +70,10 @@ public class JpaOwnerRepositoryImpl implements OwnerRepository {
     @Override
     public void save(Owner owner) {
         if (owner.getId() == null) {
-            this.em.persist(owner);
+            em.persist(owner);
         } else {
-            this.em.merge(owner);
+            em.merge(owner);
         }
-
     }
 
 }
