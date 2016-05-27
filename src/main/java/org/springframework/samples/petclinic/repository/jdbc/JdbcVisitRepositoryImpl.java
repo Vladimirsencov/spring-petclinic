@@ -80,7 +80,7 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
 
     @Override
     public List<Visit> findByPetId(Integer petId) {
-        return this.jdbcTemplate.query(
+        return jdbcTemplate.query(
             "SELECT id as visit_id, visit_date, description FROM visits WHERE pet_id=?",
             new JdbcVisitRowMapper(), petId);
     }

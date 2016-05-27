@@ -69,9 +69,11 @@ public class JdbcVetRepositoryImpl implements VetRepository {
             BeanPropertyRowMapper.newInstance(Specialty.class));
 
         // Build each vet's list of specialties.
+
         for (Vet vet : vets) {
             final List<Integer> vetSpecialtiesIds = this.jdbcTemplate.query(
                 "SELECT specialty_id FROM vet_specialties WHERE vet_id=?",
+
                 new BeanPropertyRowMapper<Integer>() {
                     @Override
                     public Integer mapRow(ResultSet rs, int row) throws SQLException {
